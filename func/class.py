@@ -1,16 +1,16 @@
 class BankOperations:
 
-    def __init__(self, id_operations, state, date, amount, currency_code, description, from_, to):
+    def __init__(self, id_operations, state, date, amount, currency_name, description, from_, to):
         self.id_operations = id_operations
         self.state = state
         self.date = date
         self.amount = amount
-        self.currency_code = currency_code
+        self.currency_name = currency_name
         self.description = description
         self.from_ = from_
         self.to = to
 
-    def send_format_date(self):
+    def format_date(self):
         """Возвращает дату в формате str(ДД.ММ.ГГГГ)
         """
         return ".".join(self.date.split("T")[0].split("-")[::-1])
@@ -33,7 +33,7 @@ class BankOperations:
             return " ".join(list_from_)
 
     def coding_to(self):
-        """Возвращает описание отправителя перевода
+        """Возвращает описание получателя перевода
         в формате (Visa Platinum 0000 00** **** 0000)
         или (Счет *0000)
         """
@@ -48,4 +48,13 @@ class BankOperations:
                     list_to.pop()
                     list_to.append(encoded_number)
             return " ".join(list_to)
+
+    def send_amount(self):
+        """
+        Возвращает сумму перевода в формате
+        (00000.00 ###)
+        """
+        return " ".join([self.amount, self.currency_name])
+
+
 
