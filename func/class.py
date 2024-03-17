@@ -15,14 +15,37 @@ class BankOperations:
         """
         return ".".join(self.date.split("T")[0].split("-")[::-1])
 
-    def send_from_(self):
+    def coding_from_(self):
         """Возвращает описание отправителя перевода
         в формате (Visa Platinum 0000 00** **** 0000)
-        :param payment_system: название платежной системы
-        :param number_card: Номер карты
-        :param encoded_number: Зашифрованный номер карты
+        или (Счет *0000)
         """
-        payment_system = self.from_.split(' ')[0]
-        number_card = self.from_.split(' ')[1]
-        encoded_number = number_card.replace(number_card[6:12], "******", 1)
-        return " ".join([payment_system, encoded_number[0:4], encoded_number[4:8], encoded_number[8:12], encoded_number[12:16]])
+        list_from_ = self.from_.split(" ")
+        if "Счет" in list_from_[0]:
+            encoded_number = list_from_[1].replace(list_from_[1][0:16], "*", 1)
+            return " ".join([list_from_[0], encoded_number])
+        else:
+            for i in list_from_:
+                if i.isdigit():
+                    encoded_number = i.replace(i[6:12], "******", 1)
+                    list_from_.pop()
+                    list_from_.append(encoded_number)
+            return " ".join(list_from_)
+
+    def coding_to(self):
+        """Возвращает описание отправителя перевода
+        в формате (Visa Platinum 0000 00** **** 0000)
+        или (Счет *0000)
+        """
+        list_to = self.to.split(" ")
+        if "Счет" in list_to[0]:
+            encoded_number = list_to[1].replace(list_to[1][0:16], "*", 1)
+            return " ".join([list_to[0], encoded_number])
+        else:
+            for i in list_to:
+                if i.isdigit():
+                    encoded_number = i.replace(i[6:12], "******", 1)
+                    list_to.pop()
+                    list_to.append(encoded_number)
+            return " ".join(list_to)
+
