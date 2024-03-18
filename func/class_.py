@@ -1,7 +1,6 @@
-class BankOperations:
+class BankOperation:
 
-    def __init__(self, id_operations, state, date, amount, currency_name, description, from_, to):
-        self.id_operations = id_operations
+    def __init__(self, state, date, amount, currency_name, description, to, from_ = None):
         self.state = state
         self.date = date
         self.amount = amount
@@ -20,17 +19,19 @@ class BankOperations:
         в формате (Visa Platinum 0000 00** **** 0000)
         или (Счет *0000)
         """
-        list_from_ = self.from_.split(" ")
-        if "Счет" in list_from_[0]:
-            encoded_number = list_from_[1].replace(list_from_[1][0:16], "*", 1)
-            return " ".join([list_from_[0], encoded_number])
-        else:
-            for i in list_from_:
-                if i.isdigit():
-                    encoded_number = i.replace(i[6:12], "******", 1)
-                    list_from_.pop()
-                    list_from_.append(encoded_number)
-            return " ".join(list_from_)
+        if self.from_ != None:
+            list_from_ = self.from_.split(" ")
+            if "Счет" in list_from_[0]:
+                encoded_number = list_from_[1].replace(list_from_[1][0:16], "*", 1)
+                return " ".join([list_from_[0], encoded_number])
+            else:
+                for i in list_from_:
+                    if i.isdigit():
+                        encoded_number = i.replace(i[6:12], "******", 1)
+                        format_number = " ".join([encoded_number[0:4], encoded_number[4:8], encoded_number[8:12], encoded_number[12:16]])
+                        list_from_.pop()
+                        list_from_.append(format_number)
+                return " ".join(list_from_)
 
     def coding_to(self):
         """Возвращает описание получателя перевода
@@ -45,8 +46,9 @@ class BankOperations:
             for i in list_to:
                 if i.isdigit():
                     encoded_number = i.replace(i[6:12], "******", 1)
+                    format_number = " ".join([encoded_number[0:4], encoded_number[4:8], encoded_number[8:12], encoded_number[12:16]])
                     list_to.pop()
-                    list_to.append(encoded_number)
+                    list_to.append(format_number)
             return " ".join(list_to)
 
     def send_amount(self):
