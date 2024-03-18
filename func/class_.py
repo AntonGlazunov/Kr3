@@ -1,6 +1,9 @@
+import datetime
+
+
 class BankOperation:
 
-    def __init__(self, state, date, amount, currency_name, description, to, from_ = None):
+    def __init__(self, state, date, amount, currency_name, description, to, from_=None):
         self.state = state
         self.date = date
         self.amount = amount
@@ -28,7 +31,8 @@ class BankOperation:
                 for i in list_from_:
                     if i.isdigit():
                         encoded_number = i.replace(i[6:12], "******", 1)
-                        format_number = " ".join([encoded_number[0:4], encoded_number[4:8], encoded_number[8:12], encoded_number[12:16]])
+                        format_number = " ".join(
+                            [encoded_number[0:4], encoded_number[4:8], encoded_number[8:12], encoded_number[12:16]])
                         list_from_.pop()
                         list_from_.append(format_number)
                 return " ".join(list_from_)
@@ -46,7 +50,8 @@ class BankOperation:
             for i in list_to:
                 if i.isdigit():
                     encoded_number = i.replace(i[6:12], "******", 1)
-                    format_number = " ".join([encoded_number[0:4], encoded_number[4:8], encoded_number[8:12], encoded_number[12:16]])
+                    format_number = " ".join(
+                        [encoded_number[0:4], encoded_number[4:8], encoded_number[8:12], encoded_number[12:16]])
                     list_to.pop()
                     list_to.append(format_number)
             return " ".join(list_to)
@@ -58,5 +63,9 @@ class BankOperation:
         """
         return " ".join([self.amount, self.currency_name])
 
-
-
+    def format_datatime(self):
+        """Возвращает дату и время
+        в виде класса datatime
+        """
+        date_time = self.date.split(".")[0]
+        return datetime.datetime.strptime(date_time, '%Y-%m-%dT%H:%M:%S')
