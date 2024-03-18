@@ -5,7 +5,6 @@ from func.functions import rearrangement
 operations = object_generator(load_operations_list())
 counter = 0
 last_transactions = []
-counter_ = 0
 sort_last_transactions = []
 
 for operation in operations:
