@@ -23,10 +23,10 @@ class BankOperation:
         в формате (Visa Platinum 0000 00** **** 0000)
         или (Счет *0000)
         """
-        list_from_ = self.from_.split(" ")
         if self.from_ == None:
             return self.from_
-        elif "Счет" in list_from_[0]:
+        list_from_ = self.from_.split(" ")
+        if "Счет" in list_from_[0]:
             encoded_number = list_from_[1].replace(list_from_[1][0:16], "*", 1)
             return " ".join([list_from_[0], encoded_number])
         else:
