@@ -3,7 +3,8 @@ import datetime
 
 class BankOperation:
 
-    def __init__(self, state, date, amount, currency_name, description, to, from_=None):
+    def __init__(self, id, state, date, amount, currency_name, description, to, from_=None):
+        self.id = id
         self.state = state
         self.date = date
         self.amount = amount
