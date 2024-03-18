@@ -1,10 +1,13 @@
 import pytest
 
-import func.functions
+from func.functions import load_operations_list
+from func.functions import rearrangement
+from func.functions import object_generator
+
 
 
 def test_load_operations_list():
-    assert func.functions.load_operations_list("..", "text.json") == [
+    assert load_operations_list("..", "text.json") == [
         {
             "id": 441945886,
             "state": "EXECUTED",
@@ -21,12 +24,12 @@ def test_load_operations_list():
 
 
 def test_rearrangement():
-    assert func.functions.rearrangement([5, 4, 3, 2, 1], 6) == "Не верное число"
+    assert rearrangement([5, 4, 3, 2, 1], 6) == "Не верное число"
 
 
 
 def test_object_generator():
-    assert func.functions.object_generator([
+    assert object_generator([
         {
             "id": 441945886,
             "state": "EXECUTED",
