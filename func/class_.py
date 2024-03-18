@@ -22,20 +22,21 @@ class BankOperation:
         в формате (Visa Platinum 0000 00** **** 0000)
         или (Счет *0000)
         """
-        if self.from_ != None:
-            list_from_ = self.from_.split(" ")
-            if "Счет" in list_from_[0]:
-                encoded_number = list_from_[1].replace(list_from_[1][0:16], "*", 1)
-                return " ".join([list_from_[0], encoded_number])
-            else:
-                for i in list_from_:
-                    if i.isdigit():
-                        encoded_number = i.replace(i[6:12], "******", 1)
-                        format_number = " ".join(
-                            [encoded_number[0:4], encoded_number[4:8], encoded_number[8:12], encoded_number[12:16]])
-                        list_from_.pop()
-                        list_from_.append(format_number)
-                return " ".join(list_from_)
+        list_from_ = self.from_.split(" ")
+        if self.from_ == None:
+            return self.from_
+        elif "Счет" in list_from_[0]:
+            encoded_number = list_from_[1].replace(list_from_[1][0:16], "*", 1)
+            return " ".join([list_from_[0], encoded_number])
+        else:
+            for i in list_from_:
+                if i.isdigit():
+                    encoded_number = i.replace(i[6:12], "******", 1)
+                    format_number = " ".join([encoded_number[0:4], encoded_number[4:8],
+                                              encoded_number[8:12], encoded_number[12:16]])
+                    list_from_.pop()
+                    list_from_.append(format_number)
+            return " ".join(list_from_)
 
     def coding_to(self):
         """Возвращает описание получателя перевода
@@ -69,3 +70,9 @@ class BankOperation:
         """
         date_time = self.date.split(".")[0]
         return datetime.datetime.strptime(date_time, '%Y-%m-%dT%H:%M:%S')
+
+    def operation_verification(self):
+        if "EXECUTED" in self.state:
+            return True
+        else:
+            return False

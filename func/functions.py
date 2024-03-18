@@ -1,14 +1,14 @@
 import json
 import os
-import datetime
+
 from func.class_ import BankOperation
+
 
 def load_operations_list():
     '''Загружает список операций из файла'''
     with open(os.path.join("..", "operations.json"), 'r', encoding="utf-8") as file:
         operations_list = json.loads(file.read())
         return operations_list
-
 
 
 def object_generator(operations_list):
@@ -34,5 +34,14 @@ def object_generator(operations_list):
     return operations
 
 
-
-
+def rearrangement(last_transactions, place):
+    "Выберает операцию их добавленных в список в зависимости от даты"
+    for last_transaction_ in last_transactions:
+        counter = 0
+        for i in range(len(last_transactions)):
+            if last_transaction_.format_datatime() > last_transactions[i].format_datatime():
+                counter += 1
+        if counter == place:
+            sort_last_transactions = last_transaction_
+            break
+    return sort_last_transactions
