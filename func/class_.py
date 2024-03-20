@@ -3,8 +3,8 @@ import datetime
 
 class BankOperation:
 
-    def __init__(self, id, state, date, amount, currency_name, description, to, from_=None):
-        self.id = id
+    def __init__(self, id, state, date, amount, currency_name, description, to, from_ = None):
+        self.id = int(id)
         self.state = state
         self.date = date
         self.amount = amount
@@ -27,7 +27,7 @@ class BankOperation:
             return self.from_
         list_from_ = self.from_.split(" ")
         if "Счет" in list_from_[0]:
-            encoded_number = list_from_[1].replace(list_from_[1][0:16], "*", 1)
+            encoded_number = list_from_[1].replace(list_from_[1][0:16], "**", 1)
             return " ".join([list_from_[0], encoded_number])
         else:
             for i in list_from_:
@@ -46,7 +46,7 @@ class BankOperation:
         """
         list_to = self.to.split(" ")
         if "Счет" in list_to[0]:
-            encoded_number = list_to[1].replace(list_to[1][0:16], "*", 1)
+            encoded_number = list_to[1].replace(list_to[1][0:16], "**", 1)
             return " ".join([list_to[0], encoded_number])
         else:
             for i in list_to:
