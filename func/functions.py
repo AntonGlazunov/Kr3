@@ -3,7 +3,7 @@ import os
 
 from func.class_ import BankOperation
 
-def load_operations_list(path_ = "..", path1_ = "operation.json"):
+def load_operations_list(path_ = "..", path1_ = "operations.json"):
     '''Загружает список операций из файла'''
     with open(os.path.join(path_, path1_), 'r', encoding="utf-8") as file:
         operations_list = json.loads(file.read())

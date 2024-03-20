@@ -1,3 +1,4 @@
+from func.class_ import BankOperation
 from func.functions import load_operations_list
 from func.functions import object_generator
 from func.functions import rearrangement
@@ -6,31 +7,26 @@ operations = object_generator(load_operations_list())
 counter = 0
 last_transactions = []
 sort_last_transactions = []
+old_transaction = BankOperation(0, "EXECUTED", "1970-01-01T00:00:00.00000", "100", "руб.",
+                                "Открытие вклада", "Счет 77613226829885488381")
 
-for operation in operations:
-    if counter < 5 and operation.operation_verification():
-        last_transactions.append(operation)
-        counter += 1
-    else:
-        for last_transaction in last_transactions:
-            if operation.format_datatime() > last_transaction.format_datatime() and operation.operation_verification():
-                last_transactions.remove(last_transaction)
-                last_transactions.append(operation)
-                break
-
-for i in range(len(last_transactions)):
-    sort_last_transactions.append(rearrangement(last_transactions, i))
+for i in range(len(operations)):
+    sort_last_transactions.append(rearrangement(operations, i))
 
 sort_last_transactions.reverse()
 
-for one_last_transaction in sort_last_transactions:
-    if one_last_transaction.from_ != None:
-        print(f"""{one_last_transaction.format_date()} {one_last_transaction.description}
-{one_last_transaction.coding_from_()} -> {one_last_transaction.coding_to()}
-{one_last_transaction.send_amount()}
+for sort_last_transaction in sort_last_transactions:
+    if not sort_last_transaction.operation_verification():
+        sort_last_transactions.remove(sort_last_transaction)
+
+for num_ in range(5):
+    if sort_last_transactions[num_].from_ != None:
+        print(f"""{sort_last_transactions[num_].format_date()} {sort_last_transactions[num_].description}
+{sort_last_transactions[num_].coding_from_()} -> {sort_last_transactions[num_].coding_to()}
+{sort_last_transactions[num_].send_amount()}
 """)
     else:
-        print(f"""{one_last_transaction.format_date()} {one_last_transaction.description}
-{one_last_transaction.coding_to()}
-{one_last_transaction.send_amount()}
+        print(f"""{sort_last_transactions[num_].format_date()} {sort_last_transactions[num_].description}
+{sort_last_transactions[num_].coding_to()}
+{sort_last_transactions[num_].send_amount()}
 """)
